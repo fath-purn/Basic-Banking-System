@@ -66,8 +66,6 @@
             const amount = amountInput.value;
             const action = document.querySelector('input[name="action"]:checked').id;
 
-            modal("block");
-
             try {
                 let result;
                 if (action === "deposit") {
@@ -83,6 +81,7 @@
                 console.error(`Error: ${error}`);
             }
 
+            modal("block");
             setTimeout(() => {
                 modal("none");
             }, 5000)
