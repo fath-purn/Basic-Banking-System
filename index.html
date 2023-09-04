@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio,line-clamp"></script>
+</head>
+
+<body>
+
+    <div class="flex items-center w-[100%] h-screen justify-evenly">
+
+        <div class="flex justify-around items-center w-[50%] gap-10">
+            <div
+                class="pl-[30px] gap-2 w-[100%] h-[211px] flex flex-col justify-center rounded-lg drop-shadow bg-gradient-to-r from-violet-600 to-indigo-600">
+                <h1 class="font-bolf text-xl text-white">Fatkhurrohman Purnomo</h1>
+                <p class="text-white" id="saldo">Rp 0,00</p>
+                <p class="text-white mt-2">123 456 789</p>
+            </div>
+
+            <div class="flex">
+                <form>
+                    <!-- Name -->
+                    <div class="flex flex-col">
+                        <p class="font-semibold">Action</p>
+                        <div class="flex items-center gap-2">
+                            <input type="radio" name="action" id="deposit">
+                            <label for="deposit">Deposit</label>
+                        </div>
+                        <div class="flex items-center gap-2 mt-2">
+                            <input type="radio" name="action" id="withdraw">
+                            <label for="withdraw">Withdraw</label>
+                        </div>
+                    </div>
+
+                    <div class="mt-4 flex flex-col">
+                        <p class="font-semibold">Masukkan Total Uang</p>
+                        <input id="amountInput" class="rounded-lg mt-2" type="number" placeholder="Masukkan total uang">
+                        <button id="submitButton"
+                            class="mt-1 bg-blue-500 py-2 rounded-lg text-white hover:bg-blue-600">Submit</button>
+                    </div>
+                </form>
+            </div>
+            
+        </div>
+
+        
+        <div id="notif" style="display: none;" class="bg-red-500 absolute z-50 bottom-10 right-10 py-3 pl-3 w-[200px] rounded-lg">
+            
+            <p class="text-white font-semibold"><span id="notifMsg">Error</span><span onclick="document.getElementById('notif').style.display='none'"
+                class="absolute right-[20px] font-black">&times;</span></p>
+        </div>
+    </div>
+
+    <script src="banking-system.js"></script>
+    <script>
+        const bank = new BankAccount();
+        const amountInput = document.getElementById("amountInput");
+        const submitButton = document.getElementById("submitButton");
+
+        submitButton.addEventListener("click", async (event) => {
+            event.preventDefault();
+
+            const amount = amountInput.value;
+            const action = document.querySelector('input[name="action"]:checked').id;
+
+            modal("block");
+
+            try {
+                let result;
+                if (action === "deposit") {
+                    result = await bank.deposit(amount);
+                } else if (action === "withdraw") {
+                    result = await bank.withdraw(amount);
+                }
+
+                console.log(result);
+                console.log(bank);
+            } catch (error) {
+                notifMsg(`Error: ${error}`, "#EF4444");
+                console.error(`Error: ${error}`);
+            }
+
+            setTimeout(() => {
+                modal("none");
+            }, 5000)
+
+            document.getElementById("amountInput").value = "";
+        });
+    </script>
+
+</body>
+
+</html>
