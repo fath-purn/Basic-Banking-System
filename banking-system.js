@@ -56,7 +56,7 @@ class BankAccount {
                 this.saldo -= amount;
                 myDisplayerSaldo(this.saldo);
 
-                notifMsg("Withdraw Berhail!", "#22C55E");
+                notifMsg("Withdraw Berhasil!", "#22C55E");
                 resolve({
                     message: "Withdraw berhasil",
                     amount: amount,
